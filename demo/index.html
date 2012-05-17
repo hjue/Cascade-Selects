@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>jQuery Cascade Select Test</title>
+<meta name="viewport" content="width=device-width">
+</head>
+<body>
+
+	<select id="province" name="province" class="span2"></select>
+	<select id="city" name="city" style="display:none" class="span2"></select>
+	<select id="district" name="district" style="display:none" class="span2"></select>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="../js/jquery.cascadeselects.js"></script>
+<script type="text/javascript">
+$('document').ready(function()
+{
+
+	regioncode = 152501;
+	$('<select id="selroot"></select>').cascadeselects('#province','/index.php/reg/get_cities',
+	{ 
+		defaultValue:parseInt(regioncode/10000)*10000
+	}).change();
+
+	$('#province').cascadeselects('#city','/index.php/reg/get_cities',
+	{ 
+		defaultValue:parseInt(regioncode/100)*100,
+		before:function (target) 
+		{ 
+			$("#district").css("display","none");
+			$("#district").html("");			
+			$("#city").css("display","none");
+			$("#city").html("");			
+		}		
+	});	
+
+	$('#city').cascadeselects('#district','/index.php/reg/get_cities',
+	{ 
+		defaultValue:regioncode,
+		before:function (target) 
+		{ 
+			$("#district").css("display","none");
+			$("#district").html("");						
+		}		
+	});
+});
+
+
+</script>
+</body> 
+</html>
